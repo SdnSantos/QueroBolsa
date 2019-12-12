@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Main from '../pages/Main';
-import Pagina2 from '../pages/Pagina2';
+import Modal from '../pages/Modal';
 
 export default function Routes() {
   return (
@@ -12,7 +12,7 @@ export default function Routes() {
       {/* garantir que uma rota seja chamada por vez */}
       <Switch>
         <Route path="/" component={Main} exact />
-        <Route path="/pagina2" component={Pagina2} />
+        <Route path="/modal" component={Modal} />
       </Switch>
     </BrowserRouter>
   );
