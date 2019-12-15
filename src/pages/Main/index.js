@@ -1,13 +1,17 @@
 import React from 'react';
 
-import { Title } from './styles';
+import Header from '../../components/Header';
+import Body from '../../components/Body';
+import Course from '../../components/Course';
+import Footer from '../../components/Footer';
 
 export default function Main() {
   return (
-    <Title error>
-      Main
-      <br />
-      <small>sub-Main</small>
-    </Title>
+    <>
+      <Header />
+      <Body />
+      <Course />
+      <Footer />
+    </>
   );
 }
