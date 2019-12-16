@@ -2,7 +2,7 @@ import React from 'react';
 
 import Header from '../../components/Header';
 import Body from '../../components/Body';
-import Course from '../../components/Course';
+import ModalCourse from '../../components/ModalCourse';
 import Footer from '../../components/Footer';
 
 export default function Main() {
@@ -10,7 +10,7 @@ export default function Main() {
     <>
       <Header />
       <Body />
-      <Course />
+      <ModalCourse />
       <Footer />
     </>
   );
