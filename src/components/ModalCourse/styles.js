@@ -48,7 +48,9 @@ export const ModalContainer = styled.div`
   left: 0;
   z-index: 2000;
 
-  display: ${({ show }) => (show ? 'flex' : 'none')};
+  display: flex;
+
+  /* display: ${({ show }) => (show ? 'flex' : 'none')}; */
 
   align-items: center;
   justify-content: center;

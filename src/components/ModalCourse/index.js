@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+/* eslint-disable no-undef */
+/* eslint-disable no-plusplus */
+import React, { useState, useEffect } from 'react';
 
 import { Slider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { MdAddCircleOutline } from 'react-icons/md';
 import { FaCheckSquare, FaSquare } from 'react-icons/fa';
+
+import api from '../../services/api';
 
 import {
   Container,
@@ -35,11 +39,42 @@ const useStyles = makeStyles({
 
 export default function ModalCourse() {
   const classes = useStyles();
+
+  const [data, setData] = useState([]);
+  const [cities, setCities] = useState({});
+  const [courses, setCourses] = useState({});
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
 
   const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    async function loadData() {
+      const data = await api.get();
+
+      setData(data.data);
+    }
+
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    async function loadCities() {
+      setCities(data.map(c => c.campus.city));
+    }
+
+    async function loadCourses() {
+      setCourses(data.map(c => c.course.name));
+    }
+
+    loadCities();
+    loadCourses();
+  }, [data]);
+
+  console.tron.log(cities);
+  console.tron.log(courses);
 
   return (
     <>
@@ -61,11 +96,11 @@ export default function ModalCourse() {
             <Param>
               <OptionLeft>
                 <p>SELECIONE SUA CIDADE</p>
-                <select name="curso" id="city">
+                <select name="cities">
                   <option value="Selecione">Selecione</option>
-                  <option value="engmec">Engenharia Mecânica</option>
-                  <option value="jorn">Jornalismo</option>
-                  <option value="bio">Biomedicina</option>
+                  {data.map(c => (
+                    <option value={c.campus.city}>{c.campus.city}</option>
+                  ))}
                 </select>
                 <p>COMO VOCÊ QUER ESTUDAR?</p>
                 <Select>
@@ -75,13 +110,11 @@ export default function ModalCourse() {
               </OptionLeft>
               <OptionRight>
                 <p>SELECIONE O CURSO DE SUA PREFERÊNCIA</p>
-                <select name="city" id="city">
-                  <option value="Selecione">Selecione</option>
-                  <option value="São José dos Campos">
-                    São José dos Campos
-                  </option>
-                  <option value="Jacareí">Jacareí</option>
-                  <option value="Caçapava">Caçapava</option>
+                <select id="courses">
+                  <option value="">Selecione</option>
+                  {data.map(d => (
+                    <option value={d.course.name}>{d.course.name}</option>
+                  ))}
                 </select>
                 <p>COMO VOCÊ QUER ESTUDAR?</p>
                 <span>
