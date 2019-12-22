@@ -48,9 +48,9 @@ export const ModalContainer = styled.div`
   left: 0;
   z-index: 2000;
 
-  display: flex;
+  /* display: flex; */
 
-  /* display: ${({ show }) => (show ? 'flex' : 'none')}; */
+  display: ${({ show }) => (show ? 'flex' : 'none')};
 
   align-items: center;
   justify-content: center;
@@ -220,6 +220,7 @@ export const Select = styled.div`
     width: 20px;
     height: 20px;
     color: #18acc4;
+    cursor: pointer;
   }
 `;
 
@@ -286,4 +287,16 @@ export const ColumnPrice = styled.div`
 
 export const Slider = styled.span`
   width: 100px;
+`;
+
+export const Presential = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const Distance = styled.div`
+  display: flex;
+  align-items: center;
+
+  margin-left: 15px;
 `;

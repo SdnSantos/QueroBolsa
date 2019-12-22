@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-plusplus */
 import React, { useState, useEffect } from 'react';
 
 import { Slider } from '@material-ui/core';
@@ -27,6 +25,8 @@ import {
   LeftTable,
   RightTable,
   TextV,
+  Presential,
+  Distance,
 } from './styles';
 
 const useStyles = makeStyles({
@@ -43,6 +43,9 @@ export default function ModalCourse() {
   const [data, setData] = useState([]);
   const [cities, setCities] = useState({});
   const [courses, setCourses] = useState({});
+  const [presential, setPresential] = useState(false);
+  const [distance, setDistance] = useState(false);
+  const [value, setValue] = useState(10000);
 
   const [show, setShow] = useState(false);
 
@@ -52,15 +55,17 @@ export default function ModalCourse() {
 
   useEffect(() => {
     async function loadData() {
-      const data = await api.get();
+      const dataApi = await api.get();
 
-      setData(data.data);
+      setData(dataApi.data);
     }
 
     loadData();
   }, []);
 
   useEffect(() => {
+    console.tron.log(data);
+
     async function loadCities() {
       setCities(data.map(c => c.campus.city));
     }
@@ -73,8 +78,31 @@ export default function ModalCourse() {
     loadCourses();
   }, [data]);
 
-  console.tron.log(cities);
-  console.tron.log(courses);
+  function filterCities() {
+    const newArr = [];
+
+    for (let index = 0; index < cities.length; index++) {
+      if (newArr.indexOf(cities[index]) === -1) {
+        newArr.push(cities[index]);
+      }
+    }
+    return newArr;
+  }
+
+  function filterCourses() {
+    const newArr = [];
+
+    for (let index = 0; index < courses.length; index++) {
+      if (newArr.indexOf(courses[index]) === -1) {
+        newArr.push(courses[index]);
+      }
+    }
+    return newArr;
+  }
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
     <>
@@ -98,33 +126,46 @@ export default function ModalCourse() {
                 <p>SELECIONE SUA CIDADE</p>
                 <select name="cities">
                   <option value="Selecione">Selecione</option>
-                  {data.map(c => (
-                    <option value={c.campus.city}>{c.campus.city}</option>
-                  ))}
+                  {filterCities()
+                    .sort()
+                    .map(c => (
+                      <option value={c}>{c}</option>
+                    ))}
                 </select>
                 <p>COMO VOCÊ QUER ESTUDAR?</p>
                 <Select>
-                  <FaCheckSquare /> Presencial
-                  <FaCheckSquare /> A distância
+                  <Presential onClick={() => setPresential(!presential)}>
+                    {presential ? <FaCheckSquare /> : <FaSquare />} Presencial
+                  </Presential>
+                  <Distance onClick={() => setDistance(!distance)}>
+                    {distance ? <FaCheckSquare /> : <FaSquare />} A distância
+                  </Distance>
                 </Select>
               </OptionLeft>
               <OptionRight>
                 <p>SELECIONE O CURSO DE SUA PREFERÊNCIA</p>
                 <select id="courses">
                   <option value="">Selecione</option>
-                  {data.map(d => (
-                    <option value={d.course.name}>{d.course.name}</option>
-                  ))}
+                  {filterCourses()
+                    .sort()
+                    .map(c => (
+                      <option value={c}>{c}</option>
+                    ))}
                 </select>
-                <p>COMO VOCÊ QUER ESTUDAR?</p>
+                <p>ATÉ QUANTO PODE PAGAR?</p>
                 <span>
-                  <text>R$10.000</text>
+                  <text>
+                    {value.toLocaleString('pt-BR', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    })}
+                  </text>
                   <Slider
                     min={0}
                     max={10000}
-                    defaultValue={10000}
+                    defaultValue={value}
+                    onChange={handleChange}
                     step={1000}
-                    valueLabelDisplay="on"
                     className={classes.input}
                   />
                 </span>
