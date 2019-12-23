@@ -26,10 +26,7 @@ export const Container = styled.div`
     margin-top: 50px;
 
     table {
-      border: 1px solid #007a8d;
-      border-radius: 3px;
-      border-spacing: 0px;
-
+      /* border: 0.5px solid #007a8d; */
       tr {
         display: flex;
       }
@@ -56,6 +53,7 @@ export const Td = styled.td`
 
   padding: 3px 10px 3px 10px;
   border: 0.1px solid #007a8d;
+  border-spacing: 0;
   color: ${({ selected }) => (selected ? '#FFF' : '#007a8d')};
   background-color: ${({ selected }) => (selected ? '#007a8d' : '#FFF')};
 `;
